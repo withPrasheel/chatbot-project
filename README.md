@@ -1,4 +1,38 @@
-This is chatbot project
+# Chatbot Project
+
+## Overview
+This project is a full-scale chatbot interface developed as a technical take-home assessment for a Software Engineering (SWE) Intern position. It includes user authentication, a chat interface, conversation functionality, and integration with the OpenAI API.
+
+## Features
+- User authentication with email confirmation
+- Real-time chat interface
+- Conversation history stored in a SQL database
+- Integration with OpenAI API for chatbot responses
+
+## Setup
+
+### Backend
+1. Clone the repository
+2. Navigate to the backend directory: `cd chatbot-project`
+3. Install dependencies: `npm install`
+4. Create a `.env` file and add the following environment variables:
+
+5. Start the server: `node server.js`
+
+### Frontend
+1. Navigate to the frontend directory: `cd chatbot-frontend`
+2. Install dependencies: `npm install`
+3. Start the React development server: `npm start`
+
+## Deployment
+Provide steps to deploy the application (e.g., using Heroku or another cloud provider).
+
+## Additional Documentation
+Include any additional documentation such as API endpoints, database schema, and instructions for running tests.
+
+## Contact
+If you have any questions, please reach out to [your-email@example.com](mailto:your-email@example.com).
+
 
 
 // Frontend Readme 
