@@ -2,9 +2,9 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
 const Users = sequelize.define('Users', {
-  userId: {     // Need to store last max count somewhere to generate unique userId
+  userId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
     primaryKey: true,
     unique: true,
   },
