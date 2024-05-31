@@ -1,5 +1,10 @@
 # Chatbot Project
 
+## Mysql
+brew services start mysql
+brew services stop mysql
+brew services restart mysql
+
 ## Overview
 This project is a full-scale chatbot interface developed as a technical take-home assessment for a Software Engineering (SWE) Intern position. It includes user authentication, a chat interface, conversation functionality, and integration with the OpenAI API.
 

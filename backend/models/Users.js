@@ -1,7 +1,13 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 
-const User = sequelize.define('User', {
+const Users = sequelize.define('Users', {
+  userId: {     // Need to store last max count somewhere to generate unique userId
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    unique: true,
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -9,11 +15,6 @@ const User = sequelize.define('User', {
   },
   userName: {
     type: DataTypes.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  userId: {     // Need to store last max count somewhere to generate unique userId
-    type: DataTypes.INTEGER,
     allowNull: false,
     unique: true,
   },
@@ -37,4 +38,4 @@ const User = sequelize.define('User', {
   timestamps: true,
 });
 
-module.exports = User;
+module.exports = Users;
