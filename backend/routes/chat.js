@@ -12,7 +12,7 @@ router.post('/prompt', async (req, res) => {
   const { username, message } = req.body;
   try {
     const user = await Users.findOne({ where: { username } });
-    if(!user) 
+    if (!user)
       return res.status(404).json({ message: 'User not found' });
 
     const conversation = await Conversation.create({
@@ -23,7 +23,7 @@ router.post('/prompt', async (req, res) => {
     const conversations = await Conversation.findAll({ where: { userId: user.userId } });
     let messages = [];
     conversations.forEach((conv) => {
-      messages.push({role: conv.isUserMessage?"user":"system", content: conv.message});
+      messages.push({ role: conv.isUserMessage ? "user" : "system", content: conv.message });
     });
 
 
@@ -31,10 +31,16 @@ router.post('/prompt', async (req, res) => {
       messages: messages,
       model: "gpt-3.5-turbo",
     });
+    let responseMsg = completion.choices[0].message.content;
+    await Conversation.create({
+      userId: user.userId,
+      message: responseMsg,
+      isUserMessage: false
+    });
 
     res.status(201).json({ response: completion.choices[0] });
   } catch (error) {
-    console.error('Error creating message:', error);
+    console.error('Error creating request:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -43,15 +49,15 @@ router.get('/retrieve', async (req, res) => {
   const { username, userId } = req.body;
   let userid = userId;
   try {
-    if(!userid){
+    if (!userid) {
       const user = await Users.findOne({ where: { username } });
-      if(!user) 
+      if (!user)
         return res.status(404).json({ message: 'User not found' });
       else
         userid = user.userId;
     }
     const conversation = await Conversation.findAll({ where: { userid } });
-    
+
     // Integrate chat gpt-3 here
     res.status(200).json({ conversation });
   } catch (error) {
@@ -63,15 +69,15 @@ router.get('/retrieve/sec', async (req, res) => {
   const { username, userId } = req.body;
   let userid = userId;
   try {
-    if(!userid){
+    if (!userid) {
       const user = await Users.findOne({ where: { username } });
-      if(!user) 
+      if (!user)
         return res.status(404).json({ message: 'User not found' });
       else
         userid = user.userId;
     }
     const conversation = await Conversation.findAll({ where: { userid } });
-    
+
     res.status(200).json({ conversation });
   } catch (error) {
     res.status(500).json({ error: error.message });
