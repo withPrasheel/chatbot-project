@@ -15,7 +15,7 @@ router.post('/prompt', async (req, res) => {
     if (!user)
       return res.status(404).json({ message: 'User not found' });
 
-    const conversation = await Conversation.create({
+    await Conversation.create({
       userId: user.userId,
       message,
       isUserMessage: true
@@ -25,7 +25,6 @@ router.post('/prompt', async (req, res) => {
     conversations.forEach((conv) => {
       messages.push({ role: conv.isUserMessage ? "user" : "system", content: conv.message });
     });
-
 
     const completion = await openai.chat.completions.create({
       messages: messages,

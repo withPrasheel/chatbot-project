@@ -1,9 +1,25 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
-const Users = require('../models/Users'); // Ensure the path to your User model is correct
+const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
+const nodeMailer = require('nodemailer');
 
 const router = express.Router();
+const html = `
+      <h1>Welcome to our Care Chat</h1>
+      <h2>Verify your email</h2>
+      <p>Click <a href="http://localhost:3000/confirmation//token">here</a> to verify your email</p>
+    `;
+
+const transporter = nodeMailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 456,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL,
+    pass: process.env.PASSWORD
+  }
+});
 
 router.post('/signup', async (req, res) => {
   const { email, username, password } = req.body;
@@ -18,6 +34,13 @@ router.post('/signup', async (req, res) => {
       password: hashedPassword
     });
 
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL,
+      to: email,
+      subject: 'Email verification',
+      html
+    });
+    console.log('Message sent: %s', info.messageId);
     res.status(201).json({ message: 'User created successfully', user });
     // Send email and verify prompt here
   } catch (error) {
@@ -36,7 +59,7 @@ router.post('/signin', async (req, res) => {
     if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
     const isVerified = user.isVerified;
-    if(!isVerified) return res.status(400).json({ message: 'Please verify your email' });
+    if (!isVerified) return res.status(400).json({ message: 'Please verify your email' });
 
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
     res.status(200).json({ token });
