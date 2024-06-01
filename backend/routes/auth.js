@@ -12,7 +12,6 @@ router.post('/signup', async (req, res) => {
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create the user in db
     const user = await Users.create({
       email,
       userName: username,
@@ -20,6 +19,7 @@ router.post('/signup', async (req, res) => {
     });
 
     res.status(201).json({ message: 'User created successfully', user });
+    // Send email and verify prompt here
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -45,6 +45,7 @@ router.post('/signin', async (req, res) => {
   }
 });
 
+// Verfy email confirmation
 // router.get('/confirmation/:token', async (req, res) => {
 //   try {
 //     const { token } = req.params;

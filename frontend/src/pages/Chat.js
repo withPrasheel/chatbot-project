@@ -8,7 +8,7 @@ const Chat = () => {
     useEffect(() => {
         const fetchConversations = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/conversations', {
+                const res = await axios.get(process.env.DEV_LINK+'/chat/conversations', {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                     },
