@@ -3,21 +3,20 @@ const bcrypt = require('bcryptjs');
 const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const nodeMailer = require('nodemailer');
-
 const router = express.Router();
 const html = `
       <h1>Welcome to our Care Chat</h1>
       <h2>Verify your email</h2>
       <p>Click <a href="http://localhost:3000/confirmation//token">here</a> to verify your email</p>
     `;
-
 const transporter = nodeMailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 456,
-  secure: true,
+  service: 'gmail',
+  host: process.env.EMAIL_HOST,
+  port: process.env.EMAIL_PORT,
+  secure: false,
   auth: {
-    user: process.env.EMAIL,
-    pass: process.env.PASSWORD
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -35,13 +34,17 @@ router.post('/signup', async (req, res) => {
     });
 
     const info = await transporter.sendMail({
-      from: process.env.EMAIL,
+      from: {
+        name: 'Care Chat',
+        address: process.env.EMAIL
+      },
       to: email,
       subject: 'Email verification',
-      html
+      text: 'Please verify your email',
+      html: html
     });
     console.log('Message sent: %s', info.messageId);
-    res.status(201).json({ message: 'User created successfully', user });
+    res.status(201).json({ message: 'Email verification sent', user });
     // Send email and verify prompt here
   } catch (error) {
     console.error('Error creating user:', error);
