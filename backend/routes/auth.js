@@ -4,10 +4,10 @@ const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const nodeMailer = require('nodemailer');
 const router = express.Router();
-const html = `
+const html = (token) => `
       <h1>Welcome to our Care Chat</h1>
       <h2>Verify your email</h2>
-      <p>Click <a href="http://localhost:3000/confirmation//token">here</a> to verify your email</p>
+      <p>Click <a href="http://localhost:5001/auth/confirmation/${token}">here</a> to verify your email</p>
     `;
 const transporter = nodeMailer.createTransport({
   service: 'gmail',
@@ -24,7 +24,6 @@ router.post('/signup', async (req, res) => {
   const { email, username, password } = req.body;
 
   try {
-    // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await Users.create({
@@ -32,6 +31,8 @@ router.post('/signup', async (req, res) => {
       userName: username,
       password: hashedPassword
     });
+    console.log('user', user);
+    const token = jwt.sign({ userName: user.userName }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     const info = await transporter.sendMail({
       from: {
@@ -41,11 +42,10 @@ router.post('/signup', async (req, res) => {
       to: email,
       subject: 'Email verification',
       text: 'Please verify your email',
-      html: html
+      html: html(token)
     });
     console.log('Message sent: %s', info.messageId);
     res.status(201).json({ message: 'Email verification sent', user });
-    // Send email and verify prompt here
   } catch (error) {
     console.error('Error creating user:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -71,18 +71,25 @@ router.post('/signin', async (req, res) => {
   }
 });
 
-// Verfy email confirmation
-// router.get('/confirmation/:token', async (req, res) => {
-//   try {
-//     const { token } = req.params;
-//     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-//     const user = await User.findByPk(decoded.id);
-//     user.isVerified = true;
-//     await user.save();
-//     res.status(200).json({ message: 'Email confirmed, you can now sign in' });
-//   } catch (error) {
-//     res.status(500).json({ error: error.message });
-//   }
-// });
+router.get('/confirmation/:token', async (req, res) => {
+  try {
+    console.log('req.params', req.params);
+    const { token } = req.params;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    let userName = decoded.userName;
+    console.log('decoded', userName);
+    const user = await Users.findOne({ where: { userName } });
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid token' });
+    }
+    user.isVerified = true;
+    await user.save();
+    res.status(200).json({ message: 'Email confirmed, you can now sign in' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
 
 module.exports = router;
