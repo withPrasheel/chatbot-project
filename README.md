@@ -1,5 +1,8 @@
 # Chatbot Project
 
+## Assumptions
+1. Assuming we will need the history of the conversation, I am just giving one conversation thread, depending upon design and product decision we can provide multiple threads in case the patient does not want to talk about something or has given some crappy information.
+
 ## Mysql
 - brew services start mysql
 - brew services stop mysql
