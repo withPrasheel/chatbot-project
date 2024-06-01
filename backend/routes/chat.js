@@ -36,8 +36,8 @@ router.post('/prompt', async (req, res) => {
       message: responseMsg,
       isUserMessage: false
     });
-
     res.status(201).json({ response: completion.choices[0] });
+    
   } catch (error) {
     console.error('Error creating request:', error);
     res.status(500).json({ error: 'Internal server error' });
@@ -56,8 +56,6 @@ router.get('/retrieve', async (req, res) => {
         userid = user.userId;
     }
     const conversation = await Conversation.findAll({ where: { userid } });
-
-    // Integrate chat gpt-3 here
     res.status(200).json({ conversation });
   } catch (error) {
     res.status(500).json({ error: error.message });

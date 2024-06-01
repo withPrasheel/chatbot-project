@@ -7,7 +7,7 @@ const router = express.Router();
 const html = (token) => `
       <h1>Welcome to our Care Chat</h1>
       <h2>Verify your email</h2>
-      <p>Click <a href="http://localhost:5001/auth/confirmation/${token}">here</a> to verify your email</p>
+      <p>Click <a href="${process.env.DEV_LINK}auth/confirmation/${token}">here</a> to verify your email</p>
     `;
 const transporter = nodeMailer.createTransport({
   service: 'gmail',
@@ -89,7 +89,5 @@ router.get('/confirmation/:token', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-
 
 module.exports = router;
