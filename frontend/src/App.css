@@ -36,3 +36,100 @@
     transform: rotate(360deg);
   }
 }
+
+/* src/Navbar.css */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #333;
+  color: white;
+}
+
+.profile-icon {
+  font-size: 2rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content button:hover {background-color: #ddd;}
+
+.dropdown:hover .dropdown-content {display: block;}
+
+.navbar-logo {
+  height: 40px;
+  
+}
+
+.custom-navbar {
+  background-color: #4B0082; /* Dark Purple Color */
+  color: white;
+}
+
+.navbar-brand img {
+  filter: brightness(0) invert(1); /* Optional: Invert logo color for dark background */
+}
+
+.navbar-brand,
+.navbar-text,
+.navbar-text .navbar-link {
+  color: white !important;
+}
+
+.navbar-text .navbar-link:hover {
+  color: #ddd; /* Lighter shade on hover */
+}
+
+/* src/App.css */
+.half-half-page {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50vh; /* Covers half of the page vertically */
+}
+
+.logo-container, .button-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  width: 100px;
+  height: 40px;
+}
+
+.chat-button {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem; /* Makes the button bigger */
+  padding: 0.75rem 1.5rem;
+}
+
+.chat-icon {
+  width: 30px; /* Increases the size of the chat icon */
+  height: 30px;
+  margin-right: 10px;
+}

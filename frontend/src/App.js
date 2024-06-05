@@ -1,16 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import SignUp from './pages/SignUp';
-import SignIn from './pages/SignIn';
+import Dashboard from './pages/Dashboard';
 import Chat from './pages/Chat';
+import Landing from './pages/Landing';
+import Layout from './pages/Layout';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/" element={<Landing />} />
+        <Route element={<Layout />}>
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="chat" element={<Chat />} />
+        </Route>
       </Routes>
     </Router>
   );
