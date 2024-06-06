@@ -85,6 +85,8 @@
 .custom-navbar {
   background-color: #4B0082; /* Dark Purple Color */
   color: white;
+  z-index: 1000;
+  position: fixed;
 }
 
 .navbar-brand img {

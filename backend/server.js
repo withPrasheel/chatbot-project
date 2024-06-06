@@ -3,9 +3,10 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const chatRoutes = require('./routes/chat');
+const cors = require('cors');
 
 const app = express();
-
+app.use(cors());
 // Middleware
 app.use(bodyParser.json());
 

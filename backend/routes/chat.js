@@ -44,17 +44,18 @@ router.post('/prompt', async (req, res) => {
   }
 });
 
-router.get('/retrieve', async (req, res) => {
-  const { username, userId } = req.body;
-  let userid = userId;
+router.get('/retrieve/:username', async (req, res) => {
+  console.log('req.body:', req.body);
+  const { username } = req.params;
+  let userid = null;
   try {
-    if (!userid) {
+    // if (!userid) {
       const user = await Users.findOne({ where: { username } });
       if (!user)
         return res.status(404).json({ message: 'User not found' });
       else
         userid = user.userId;
-    }
+    // }
     const conversation = await Conversation.findAll({ where: { userid } });
     res.status(200).json({ conversation });
   } catch (error) {
