@@ -112,7 +112,7 @@
 }
 
 .content-container{
-  margin-top: 200px;;
+  margin-top: 4%;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -143,7 +143,7 @@
 .logo {
   width: 80%;
   height: 100%;
-  margin-top: 300px; 
+  margin-top: 8%; 
   
 }
 
@@ -152,6 +152,11 @@
   width: 60px; 
   height: 100px;
   margin-right: 10px;
+}
+
+.adding-scroll{
+  overflow-y: auto;
+  height: 80%;
 }
 
 

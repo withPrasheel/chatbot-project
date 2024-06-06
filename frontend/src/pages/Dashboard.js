@@ -1,17 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import chatIcon from '../chat.svg';
+import { jwtDecode } from 'jwt-decode'; // Correct import
 
 const Dashboard = () => {
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const username = localStorage.getItem('username');
+
+        if (!token || !username) {
+            navigate('/');
+        } else {
+            try {
+                const decoded = jwtDecode(token); // Correct usage
+                if (decoded.exp * 1000 < Date.now()) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('username');
+                    navigate('/');
+                }
+            } catch (error) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                navigate('/');
+            }
+        }
+    }, [navigate]);
 
     const handleChatClick = () => {
         navigate('/chat');
     };
 
     return (
-        <div className="d-flex half-half-page">
+        <div className="d-flex half-half-page adding-scroll">
             <div className="logo-container">
                 <img src="../../dashboard-image.png" alt="Care Chat Logo" className="logo" />
             </div>

@@ -25,7 +25,6 @@
 .message-container {
     margin-bottom: 10px;
     display: flex;
-    flex-direction: column; /* Stack messages vertically */
 }
 
 .user-message, .bot-message {
