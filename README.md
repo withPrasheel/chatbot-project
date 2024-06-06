@@ -10,6 +10,38 @@
 [![Watch the video](https://img.youtube.com/vi/iBw9Sy5kY8I/0.jpg)](https://youtu.be/iBw9Sy5kY8I)
 
 
+# DB Setup
+1. Install mysql
+2. create a db named chatbot_db
+3. Run the following queries to build the tables
+```sql
+CREATE TABLE `Conversations` (
+  `messageId` int NOT NULL AUTO_INCREMENT,
+  `userId` int NOT NULL,
+  `message` text NOT NULL,
+  `isUserMessage` tinyint(1) NOT NULL,
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`messageId`),
+  KEY `userId` (`userId`),
+  CONSTRAINT `conversations_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+```sql
+CREATE TABLE `Users` (
+  `userId` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `userName` varchar(255) NOT NULL,
+  `reqCount` int DEFAULT '0',
+  `lastLoginTimeStamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `password` varchar(255) NOT NULL,
+  `isVerified` tinyint(1) DEFAULT '0',
+  `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`userId`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `userName` (`userName`)
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
 ## Mysql
