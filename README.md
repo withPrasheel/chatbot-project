@@ -48,6 +48,11 @@ CREATE TABLE `Users` (
 - brew services stop mysql
 - brew services restart mysql
 
+## Backend
+1. Move to /backend
+2. Use ```npm i``` to install all the dependencies for the project.
+3. Edit the .env file in the backend and replace the values as needed
+4. Run the server ```node server.js```
 ## Overview
 This project is a full-scale chatbot interface developed as a technical take-home assessment for a Software Engineering (SWE) Intern position. It includes user authentication, a chat interface, conversation functionality, and integration with the OpenAI API.
 
