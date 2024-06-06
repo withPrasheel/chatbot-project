@@ -69,9 +69,9 @@ This project is a full-scale chatbot interface developed as a technical take-hom
 1. Clone the repository
 2. Navigate to the backend directory: `cd chatbot-project`
 3. Install dependencies: `npm install`
-4. Create a `.env` file and add the following environment variables:
-
-5. Start the server: `node server.js`
+4. Edit the backend .env file and update the variables according to your system.
+5. Set the openAi API key in the ~/.bash_profile with ```export OPENAI_API_KEY=`<key>'```
+6. Start the server: `node server.js`
 
 ### Frontend
 1. Navigate to the frontend directory: `cd chatbot-frontend`
