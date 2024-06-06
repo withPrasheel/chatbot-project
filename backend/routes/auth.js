@@ -3,12 +3,15 @@ const bcrypt = require('bcryptjs');
 const Users = require('../models/Users');
 const jwt = require('jsonwebtoken');
 const nodeMailer = require('nodemailer');
+const authenticateToken = require('../helpers/authMiddleware');  // Import the middleware
 const router = express.Router();
+
 const html = (token) => `
-      <h1>Welcome to our Care Chat</h1>
-      <h2>Verify your email</h2>
-      <p>Click <a href="${process.env.DEV_LINK}auth/confirmation/${token}">here</a> to verify your email</p>
-    `;
+  <h1>Welcome to our Care Chat</h1>
+  <h2>Verify your email</h2>
+  <p>Click <a href="${process.env.DEV_LINK}auth/confirmation/${token}">here</a> to verify your email</p>
+`;
+
 const transporter = nodeMailer.createTransport({
   service: 'gmail',
   host: process.env.EMAIL_HOST,
@@ -31,7 +34,7 @@ router.post('/signup', async (req, res) => {
       userName: username,
       password: hashedPassword
     });
-    console.log('user', user);
+
     const token = jwt.sign({ userName: user.userName }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
     const info = await transporter.sendMail({
@@ -44,7 +47,7 @@ router.post('/signup', async (req, res) => {
       text: 'Please verify your email',
       html: html(token)
     });
-    console.log('Message sent: %s', info.messageId);
+
     res.status(201).json({ message: 'Email verification sent', user });
   } catch (error) {
     console.error('Error creating user:', error);
@@ -55,7 +58,7 @@ router.post('/signup', async (req, res) => {
 router.post('/signin', async (req, res) => {
   const { username, password } = req.body;
   try {
-    const user = await Users.findOne({ where: { username } });
+    const user = await Users.findOne({ where: { userName: username } });
     if (!user) return res.status(404).json({ message: 'User not found' });
 
     const isMatch = await bcrypt.compare(password, user.password);
@@ -73,11 +76,9 @@ router.post('/signin', async (req, res) => {
 
 router.get('/confirmation/:token', async (req, res) => {
   try {
-    console.log('req.params', req.params);
     const { token } = req.params;
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     let userName = decoded.userName;
-    console.log('decoded', userName);
     const user = await Users.findOne({ where: { userName } });
     if (!user) {
       return res.status(400).json({ message: 'Invalid token' });
@@ -89,5 +90,19 @@ router.get('/confirmation/:token', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// Protected routes
+// router.post('/protected-route', authenticateToken, async (req, res) => {
+//   try {
+//     const { data } = req.body;
+//     const decoded = jwt.verify(data, process.env.JWT_SECRET);
+//     if (decoded.id !== req.user.id) {
+//       return res.status(403).json({ message: 'Invalid token data' });
+//     }
+//     res.status(200).json({ message: 'Protected route accessed', user: req.user });
+//   } catch (error) {
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 module.exports = router;

@@ -5,10 +5,11 @@ const Conversation = require('../models/Conversation');
 const jwt = require('jsonwebtoken');
 const OpenAI = require('openai');
 const openai = new OpenAI();
+const authenticateToken = require('../helpers/authMiddleware'); // Import the middleware
 
 const router = express.Router();
 
-router.post('/prompt', async (req, res) => {
+router.post('/prompt', authenticateToken, async (req, res) => {
   const { username, message } = req.body;
   try {
     const user = await Users.findOne({ where: { username } });
@@ -44,26 +45,24 @@ router.post('/prompt', async (req, res) => {
   }
 });
 
-router.get('/retrieve/:username', async (req, res) => {
-  console.log('req.body:', req.body);
+router.get('/retrieve/:username', authenticateToken, async (req, res) => {
   const { username } = req.params;
   let userid = null;
   try {
-    // if (!userid) {
-      const user = await Users.findOne({ where: { username } });
-      if (!user)
-        return res.status(404).json({ message: 'User not found' });
-      else
-        userid = user.userId;
-    // }
-    const conversation = await Conversation.findAll({ where: { userid } });
+    const user = await Users.findOne({ where: { username } });
+    if (!user)
+      return res.status(404).json({ message: 'User not found' });
+    else
+      userid = user.userId;
+
+    const conversation = await Conversation.findAll({ where: { userId: userid } });
     res.status(200).json({ conversation });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
-router.get('/retrieve/sec', async (req, res) => {
+router.get('/retrieve/sec', authenticateToken, async (req, res) => {
   const { username, userId } = req.body;
   let userid = userId;
   try {
