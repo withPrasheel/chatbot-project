@@ -1,10 +1,27 @@
-import React from 'react';
-import { Navbar, Container } from 'react-bootstrap';
+import React, { useEffect } from 'react';
+import { Navbar, Container, Button } from 'react-bootstrap';
 import { useChat } from './Context';
 import '../App.css';
+import { useNavigate } from 'react-router-dom';
 
-const NavigationBar = ({ onLogout }) => {
-    const { user } = useChat();
+const NavigationBar = () => {
+    const { user, setUser } = useChat();
+    const navigate = useNavigate();
+
+    const username = user?.username || localStorage.getItem('username');
+
+    useEffect(() => {
+        if (!username) {
+            navigate('/');
+        }
+    }, [username, navigate]);
+
+    const handleLogout = () => {
+        localStorage.removeItem('username');
+        localStorage.removeItem('token');
+        setUser(null);
+        navigate('/');
+    };
 
     return (
         <Navbar className='custom-navbar'>
@@ -14,9 +31,10 @@ const NavigationBar = ({ onLogout }) => {
                 </a>
                 <Navbar.Toggle />
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>
-                        Signed in as: <a href="#login" className="navbar-link">{user.username}</a>
+                    <Navbar.Text className="me-3">
+                        Signed in as: <a href="#login" className="navbar-link">{username}</a>
                     </Navbar.Text>
+                    <Button variant="outline-light" onClick={handleLogout}>Logout</Button>
                 </Navbar.Collapse>
             </Container>
         </Navbar>
