@@ -1,7 +1,7 @@
 # Care Chat Project
 
 ## Assumptions
-1. Assuming we will need the history of the conversation, I am just giving one conversation thread, depending upon design and product decision we can provide multiple threads in case the patient does not want to talk about something or has given some crappy information.
+1. Assuming we will need the history of the conversation, I am just giving one conversation thread, depending upon design and product decision, we can provide multiple threads in case the patient does not want to talk about something or has given some crappy information.
 2. 
 
 ### Initial Design [Initial Design.pdf](https://github.com/user-attachments/files/15519772/Initial.Design.pdf)
@@ -49,10 +49,11 @@ CREATE TABLE `Users` (
 - brew services restart mysql
 
 ## Backend
-1. Move to /backend
+1. Open the terminal and move to /backend in the project
 2. Use ```npm i``` to install all the dependencies for the project.
 3. Edit the .env file in the backend and replace the values as needed
 4. Run the server ```node server.js```
+   
 ## Overview
 This project is a full-scale chatbot interface developed as a technical take-home assessment for a Software Engineering (SWE) Intern position. It includes user authentication, a chat interface, conversation functionality, and integration with the OpenAI API.
 
