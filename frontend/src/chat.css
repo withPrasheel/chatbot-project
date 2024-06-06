@@ -25,6 +25,7 @@
 .message-container {
     margin-bottom: 10px;
     display: flex;
+    flex-direction: column;
 }
 
 .user-message, .bot-message {
@@ -47,6 +48,7 @@
 
 .message-form {
     display: flex;
+    flex-direction: row !important;
     padding: 10px;
     padding-bottom: 20px;;
     background-color: #ffffff;

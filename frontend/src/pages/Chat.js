@@ -36,7 +36,7 @@ const Chat = () => {
                 {conversations.map((conv, index) => (
                     <div key={index} className="message-container">
                         <p className={conv.isUserMessage ? "user-message" : "bot-message"}>
-                            <strong>{conv.isUserMessage ? "You" : "Bot"}</strong> {conv.message}
+                            <strong>{conv.isUserMessage ? "You " : "Bot "}</strong> {conv.message}
                         </p>
                     </div>
                 ))}
