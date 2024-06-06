@@ -2,9 +2,14 @@
 
 ## Assumptions
 1. Assuming we will need the history of the conversation, I am just giving one conversation thread, depending upon design and product decision, we can provide multiple threads in case the patient does not want to talk about something or has given some crappy information.
-2. 
 
 ### Initial Design [Initial Design.pdf](https://github.com/user-attachments/files/15519772/Initial.Design.pdf)
+
+## Features
+1. It's a full stack project from Frontend in React, Backend in Express-Nodejs, and Database in Mysql.
+2. The project is a chatbot named care chat which hits the open ai API in the backend to get answers to students query.
+3. It uses JWT token authentication to login and send/receive data.
+4. It sends the verification link using gmail smtp
 
 ## Demo
 [![Watch the video](https://img.youtube.com/vi/iBw9Sy5kY8I/0.jpg)](https://youtu.be/iBw9Sy5kY8I)
