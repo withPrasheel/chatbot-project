@@ -27,7 +27,6 @@ CREATE TABLE `Conversations` (
   CONSTRAINT `conversations_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `Users` (`userId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-```sql
 CREATE TABLE `Users` (
   `userId` int NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
@@ -42,7 +41,7 @@ CREATE TABLE `Users` (
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `userName` (`userName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
+```
 
 ## Mysql
 - brew services start mysql
