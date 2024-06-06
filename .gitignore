@@ -9,6 +9,7 @@ backend/node_modules/
 
 # Environment variables
 backend/.env
+frontend/.env
 
 # Build outputs
 dist/
