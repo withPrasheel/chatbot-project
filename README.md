@@ -60,9 +60,6 @@ CREATE TABLE `Users` (
 4. Edit the .env file in the backend and replace the values as needed
 5. Run the server ```node server.js```
    
-## Overview
-This project is a full-scale chatbot interface developed as a technical take-home assessment for a Software Engineering (SWE) Intern position. It includes user authentication, a chat interface, conversation functionality, and integration with the OpenAI API.
-
 ## Features
 - User authentication with email confirmation
 - Real-time chat interface
